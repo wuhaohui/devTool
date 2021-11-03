@@ -37,12 +37,13 @@ class App(QWidget):
 
     def transTxt(self):
         self.tools.transformTxtForMysql()
-        print('click  transTxt')
 
     def transMysqlField(self):
         self.tools.readMysqlTableFiled()
-        print('click  transMysqlField')
 
     # 图片转文字
     def transImage(self):
+        sender = self.sender()
+        sender.setDisabled(True)
         self.tools.transImage()
+        sender.setDisabled(False)

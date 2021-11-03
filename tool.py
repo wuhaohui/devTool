@@ -43,9 +43,9 @@ class Tools:
             # 图片识别成功
             matchTxt = result['words_result'][0]['words']
             self.setClipboardText(matchTxt)
-            print('图片识别结果：' + matchTxt)
+            return True
         else:
-            print('识别失败')
+            return False
 
     # 读取mysql字段
     def readMysqlTableFiled(self):
