@@ -15,7 +15,7 @@ class App(QWidget):
 
     def ui(self):
         self.setWindowTitle('开发小助手')
-
+        self.resize(350,200)
         oneButton = QPushButton("转 in 字符串")
         oneButton.clicked.connect(self.transTxt)
 
@@ -25,12 +25,16 @@ class App(QWidget):
         threeButton = QPushButton("图片转文字")
         threeButton.clicked.connect(self.transImage)
 
+        tourButton = QPushButton("转数组")
+        tourButton.clicked.connect(self.transArr)
+
         # 布局
         vbox = QVBoxLayout()
         vbox.addStretch(1)
         vbox.addWidget(oneButton)
         vbox.addWidget(twoButton)
         vbox.addWidget(threeButton)
+        vbox.addWidget(tourButton)
 
         self.setLayout(vbox)
         self.show()
@@ -47,3 +51,7 @@ class App(QWidget):
         sender.setDisabled(True)
         self.tools.transImage()
         sender.setDisabled(False)
+
+
+    def transArr(self):
+        self.tools.transArr()

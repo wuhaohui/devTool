@@ -62,3 +62,13 @@ class Tools:
         clipboard = QApplication.clipboard()
         clipboard.setText(content)
         print('粘贴板内容:' + content)
+
+    def transArr(self):
+        clipboard = QApplication.clipboard()
+        content = clipboard.text()
+        rule = re.compile(r'(\S+)\s+(\S+)\s+(\S+)')
+        data = rule.findall(content)
+        str = ''
+        for row in data:
+            str = str + "'%s' => '%s',//%s \n" % (row[0], row[1], row[2])
+        self.setClipboardText(str)
