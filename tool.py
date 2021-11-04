@@ -66,9 +66,14 @@ class Tools:
     def transArr(self):
         clipboard = QApplication.clipboard()
         content = clipboard.text()
-        rule = re.compile(r'(\S+)\s+(\S+)\s+(\S+)')
+        print(content)
+        rule = re.compile(r'(\S+)\s+(\S+)\s+(\S+)\s*\n?')
         data = rule.findall(content)
+        print(data)
         str = ''
         for row in data:
-            str = str + "'%s' => '%s',//%s \n" % (row[0], row[1], row[2])
+            if row.length == 2:
+                str = str + "'%s' => '%s',\n" % (row[0], row[1])
+            else:
+                str = str + "'%s' => '%s',//%s \n" % (row[0], row[1], row[2])
         self.setClipboardText(str)

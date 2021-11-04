@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QGraphicsView, QPushButton, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QGraphicsView, QPushButton, QHBoxLayout, QVBoxLayout, QMessageBox
 from PyQt5.QtCore import Qt, QByteArray, QBuffer, QIODevice
 from PyQt5.QtGui import QClipboard
 from tool import Tools
@@ -28,6 +28,9 @@ class App(QWidget):
         tourButton = QPushButton("转数组")
         tourButton.clicked.connect(self.transArr)
 
+        abouttButton = QPushButton("关于")
+        abouttButton.clicked.connect(self.aboutqt)
+
         # 布局
         vbox = QVBoxLayout()
         vbox.addStretch(1)
@@ -35,6 +38,7 @@ class App(QWidget):
         vbox.addWidget(twoButton)
         vbox.addWidget(threeButton)
         vbox.addWidget(tourButton)
+        vbox.addWidget(abouttButton)
 
         self.setLayout(vbox)
         self.show()
@@ -55,3 +59,10 @@ class App(QWidget):
 
     def transArr(self):
         self.tools.transArr()
+
+    def aboutqt(self):
+        msgBox = QMessageBox().information(self, "提示", "转换成功！")
+        # # msgBox = QMessageBox().information()
+        # # msgBox.setText('转换成功')
+        # msgBox.setStandardButtons(QMessageBox.Ok )
+        # msgBox.button(QMessageBox.Ok).animateClick(3000)
