@@ -48,9 +48,7 @@ class Tools:
             return False
 
     # 读取mysql字段
-    def readMysqlTableFiled(self):
-        clipboard = QApplication.clipboard()
-        text = clipboard.text()
+    def readMysqlTableFiled(self, text):
         rule = re.compile(r'`(\w+)`')
         data = rule.findall(text)
         newText = ""
@@ -63,17 +61,46 @@ class Tools:
         clipboard.setText(content)
         print('粘贴板内容:' + content)
 
-    def transArr(self):
-        clipboard = QApplication.clipboard()
-        content = clipboard.text()
-        print(content)
-        rule = re.compile(r'(\S+)\s+(\S+)\s+(\S+)\s*\n?')
+    def transArr(self, content, type):
+        if type == 3:
+            rule = re.compile(r'(\S+)\s+(\S+)\s+(\S+).*')
+            temp = "'%s' => '%s',//%s \n"
+        else:
+            rule = re.compile(r'(\S+)\s+(\S+).*')
+            temp = "'%s' => '%s',\n"
         data = rule.findall(content)
-        print(data)
         str = ''
         for row in data:
-            if row.length == 2:
-                str = str + "'%s' => '%s',\n" % (row[0], row[1])
+            if type == 3:
+                str = str + temp % (row[0], row[1], row[2])
             else:
-                str = str + "'%s' => '%s',//%s \n" % (row[0], row[1], row[2])
+                str = str + temp % (row[0], row[1])
         self.setClipboardText(str)
+
+    def smartTrans(self):
+        clipboard = QApplication.clipboard()
+        content = clipboard.text()
+        # 图片转文字
+        if content == '':
+            self.transImage()
+        print('获取粘贴板内容：' + content)
+        # 清空情面的空格
+        content = re.sub('^\s+', '', content)
+        # 判断是否创建表sql
+        if len(re.compile(r'^CREATE TABLE').findall(content)) > 0:
+            self.readMysqlTableFiled(content)
+        else:
+            rule = re.compile(r'.*')
+            data = rule.findall(content)
+            print(data)
+            if data is None:
+                print('格式异常-无法转换')
+            firstRow = data[0]
+            res = re.compile(r'\w+').findall(firstRow)
+            print(res)
+            if len(res) == 1:
+                self.transformTxtForMysql()
+            elif len(res) in [2, 3]:
+                self.transArr(content, len(res))
+            else:
+                print('异常')
