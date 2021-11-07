@@ -31,7 +31,11 @@ class Tools:
 
         client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
         clipboard = QApplication.clipboard()
-        # print(clipboard.image())
+        print(clipboard.image().byteCount())
+
+        if clipboard.image().byteCount() == 0:
+            return False
+
         ba = QByteArray()
         buffer = QBuffer(ba)
         buffer.open(QIODevice.WriteOnly)
@@ -83,6 +87,7 @@ class Tools:
         # 图片转文字
         if content == '':
             self.transImage()
+            return True
         print('获取粘贴板内容：' + content)
         # 清空情面的空格
         content = re.sub('^\s+', '', content)
@@ -94,13 +99,15 @@ class Tools:
             data = rule.findall(content)
             print(data)
             if data is None:
-                print('格式异常-无法转换')
+                return '格式异常-无法转换'
             firstRow = data[0]
             res = re.compile(r'\w+').findall(firstRow)
             print(res)
             if len(res) == 1:
                 self.transformTxtForMysql()
+                return True
             elif len(res) in [2, 3]:
                 self.transArr(content, len(res))
+                return True
             else:
-                print('异常')
+                return '异常'
