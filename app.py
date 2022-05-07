@@ -20,7 +20,7 @@ class App(QWidget):
         self.resize(350, 200)
 
         label = QLabel(self)
-        label.setText("<a href='https://u.jd.com/yLpjXpZ'>支持</a>")
+        label.setText("<a href='https://union-click.jd.com/jdc?e=618%7Cpc%7C&p=JF8BAKcJK1olXDYDZBoCUBVIMzZNXhpXVhgcEhgbFxBCHD1WR2tXJw5VSlc9byloACxWZSNvWmV7EwY9BEcnBm8JGlwRVAUGV25dCUoWAmsPE10dbTYCVW4WZkonAW4JHlgVWgAFV25dD08XC28IHVkTWQQBZFldAXsVAGoAGlMQVQ8eXFpYDEIXM184GGsSXQ8WUiwcWl8RcV84G1slXTZdEAMAOEkWAmsBKw'>支持</a>")
         label.setOpenExternalLinks(True)
         label.setAlignment(Qt.AlignCenter)
 

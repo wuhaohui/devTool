@@ -53,11 +53,10 @@ class Tools:
 
     # 读取mysql字段
     def readMysqlTableFiled(self, text):
-        rule = re.compile(r'`(\w+)`')
-        data = rule.findall(text)
         newText = ""
-        for row in data:
-            newText += '\'' + row + '\','
+        for line in re.compile(r'(.+)').findall(text):
+            for row in re.compile(r'^\s+`(\w+)`').findall(line):
+                newText += '\'' + row + '\','
         self.setClipboardText(newText.strip(','))
 
     def setClipboardText(self, content):
@@ -94,6 +93,7 @@ class Tools:
         # 判断是否创建表sql
         if len(re.compile(r'^CREATE TABLE').findall(content)) > 0:
             self.readMysqlTableFiled(content)
+            return True
         else:
             rule = re.compile(r'.*')
             data = rule.findall(content)
